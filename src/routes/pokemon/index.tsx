@@ -27,16 +27,19 @@ function PokemonGridComponent() {
       pokemon.id.toString().includes(search),
   );
 
+  // El navbar debe tener un height de 56px cuando sea mayor a 768px y de
+  // 32px cuando sea menor a 768px
+
   return (
-    <div className='min-h-screen bg-gray-50'>
-      <header className='bg-white shadow p-4'>
-        <div className='container mx-auto flex justify-between items-center'>
+    <div className=''>
+      <header className='bg-white w-full h-9 sm:h-15 shadow-[0_0_40px_8px_rgba(0,0,0,0.18)]'>
+        <nav className='flex justify-between items-center h-full px-8 py-2'>
           <SearchBar
             value={search}
             onChange={setSearch}
           />
-          <h1 className='text-3xl font-bold text-gray-700'>PokéDex</h1>
-        </div>
+          <h1 className='text-xl sm:text-3xl text-gray-500'>PokéDex</h1>
+        </nav>
       </header>
 
       <div className='container mx-auto'>

@@ -9,7 +9,6 @@ export const Route = createRootRoute({
 function RootComponent() {
   return (
     <>
-      <h1>My pokedex app</h1>
       <Outlet />
     </>
   );
