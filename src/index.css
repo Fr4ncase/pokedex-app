@@ -1,1 +1,52 @@
 @import 'tailwindcss';
+
+img {
+  image-rendering: -webkit-optimize-contrast;
+}
+
+@theme {
+  /* Custom colors */
+  --color-brand-gray: #f6f6f6;
+  --color-pokedex-gray: #808080;
+  --color-search: #007bff;
+  --color-hover-gray: #dbdbdb;
+
+  /* Custom shadows */
+  --shadow-header-glow: 0 0 40px 8px rgba(0, 0, 0, 0.18);
+  --shadow-search-soft: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+}
+
+@layer utilities {
+  /* Custom scrollbar */
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background: #f1f1f1;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background: #ccc;
+    border-radius: 0px;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: #bbb;
+  }
+
+  /* Custom hover icon */
+  .type-icon-hover {
+    @apply transition-all duration-200 ease-in-out cursor-pointer;
+    filter: drop-shadow(1px 1px 0px rgba(0, 0, 0, 0.8))
+      drop-shadow(-1px -1px 0px rgba(0, 0, 0, 0.8))
+      drop-shadow(0 0 15px var(--tw-shadow-color));
+  }
+
+  .type-icon-hover:hover {
+    @apply scale-[1.1];
+    filter: saturate(200%) drop-shadow(1px 1px 0px rgba(0, 0, 0, 0.8))
+      drop-shadow(-1px -1px 0px rgba(0, 0, 0, 0.8))
+      drop-shadow(0 0 20px var(--tw-shadow-color)) !important;
+  }
+}
