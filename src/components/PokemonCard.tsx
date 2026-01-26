@@ -5,13 +5,15 @@ import { Link } from '@tanstack/react-router';
 import { typeIcons, typeColors } from '@/assets/types';
 
 // Types
-import type { PokemonListItem } from '@/types/pokemon';
+import type { PokemonBasic } from '@/schemas/pokemon';
 
 interface PokemonCardProps {
-  pokemon: PokemonListItem;
+  pokemon: PokemonBasic;
 }
 
 export const PokemonCard = ({ pokemon }: PokemonCardProps) => {
+  const spriteUrl = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${pokemon.id}.png`;
+
   return (
     <Link
       to='/pokemon/$id'
@@ -24,7 +26,7 @@ export const PokemonCard = ({ pokemon }: PokemonCardProps) => {
             <span className='text-3xl text-pokedex-gray leading-none'>
               {pokemon.id}
             </span>
-            <span className=' capitalize text-pokedex-gray text-lg truncate mt-1'>
+            <span className='capitalize text-pokedex-gray text-lg truncate mt-1'>
               {pokemon.name}
             </span>
           </div>
@@ -51,25 +53,24 @@ export const PokemonCard = ({ pokemon }: PokemonCardProps) => {
           </div>
         </div>
         <div className='flex-1 flex items-center justify-center mt-1'>
-          {pokemon.sprites.other['official-artwork'].front_default ? (
-            <img
-              src={pokemon.sprites.other['official-artwork'].front_default}
-              alt={pokemon.name}
-              className='w-28 h-28 object-contain transition-transform duration-300 group-hover:scale-110'
-              style={{
-                imageRendering: 'auto',
-                filter: `
-                  drop-shadow(1px 1px 0px rgba(0,0,0,0.2)) 
-                  drop-shadow(-1px -1px 0px rgba(0,0,0,0.2))
-                  drop-shadow(1px -1px 0px rgba(0,0,0,0.2))
-                  drop-shadow(-1px 1px 0px rgba(0,0,0,0.2))
-                `,
-              }}
-              loading='lazy'
-            />
-          ) : (
-            <div className='text-gray-300'>No Image</div>
-          )}
+          <img
+            src={spriteUrl}
+            alt={pokemon.name}
+            className='w-28 h-28 object-contain transition-transform duration-300 group-hover:scale-110'
+            style={{
+              imageRendering: 'auto',
+              filter: `
+                drop-shadow(1px 1px 0px rgba(0,0,0,0.2)) 
+                drop-shadow(-1px -1px 0px rgba(0,0,0,0.2))
+                drop-shadow(1px -1px 0px rgba(0,0,0,0.2))
+                drop-shadow(-1px 1px 0px rgba(0,0,0,0.2))
+              `,
+            }}
+            loading='lazy'
+            onError={(e) => {
+              e.currentTarget.style.display = 'none';
+            }}
+          />
         </div>
       </div>
     </Link>

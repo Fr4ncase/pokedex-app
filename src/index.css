@@ -19,7 +19,7 @@ img {
 @layer utilities {
   /* Custom scrollbar */
   .custom-scrollbar::-webkit-scrollbar {
-    width: 8px;
+    width: 6px;
   }
 
   .custom-scrollbar::-webkit-scrollbar-track {
@@ -27,12 +27,12 @@ img {
   }
 
   .custom-scrollbar::-webkit-scrollbar-thumb {
-    background: #ccc;
+    background: #999999;
     border-radius: 0px;
   }
 
   .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-    background: #bbb;
+    background: #8d8d8d;
   }
 
   /* Custom hover icon */
