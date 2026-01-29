@@ -126,9 +126,9 @@ export const PokemonDetail = ({ pokemon }: PokemonCardProps) => {
                     colSpan={3}
                     className='pl-3 pr-0 lg:px-3 py-3'
                   >
-                    <div className='w-full h-4 bg-gray-200 rounded-lg overflow-hidden'>
-                      <div className='bg-green-400 h-full w-3/4 text-end leading-none'>
-                        <span className='pr-1'>45</span>
+                    <div className='w-full h-4 bg-gray-200 rounded overflow-hidden shadow-inner'>
+                      <div className='flex items-center justify-end bg-[#81c784] h-full w-3/4 leading-none animate-stripes duration-200'>
+                        <span className='pr-2 text-white'>45</span>
                       </div>
                     </div>
                   </td>
