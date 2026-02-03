@@ -10,6 +10,7 @@ img {
   --color-pokedex-gray: #808080;
   --color-search: #007bff;
   --color-hover-gray: #dbdbdb;
+  --color-text-body: #505050;
 
   /* Custom shadows */
   --shadow-header-glow: 0 0 40px 8px rgba(0, 0, 0, 0.18);

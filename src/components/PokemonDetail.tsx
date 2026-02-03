@@ -1,3 +1,9 @@
+// Custom modules
+import { typeIcons, typeColors } from '@/assets/types';
+
+//Components
+import { PokemonEvolutionChain } from '@/components/PokemonEvolutionChain';
+
 // Schemas
 import type { PokemonBasic } from '@/schemas/pokemon';
 
@@ -10,26 +16,28 @@ export const PokemonDetail = ({ pokemon }: PokemonCardProps) => {
   const spriteUrl = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${pokemon.id}.png`;
 
   return (
-    <main className='w-full flex-1 overflow-y-auto custom-scrollbar px-4'>
-      <div className='w-full px-4'>
+    <main className='w-full flex-1 overflow-y-auto custom-scrollbar'>
+      <div className='w-full max-w-450 mx-auto px-4'>
         <h1 className='uppercase text-center text-[40px] text-pokedex-gray mt-5'>
           {pokemon.name}
         </h1>
         <div className='flex justify-center'>
-          <span className='border rounded w-fit px-1'>Poison Pin Pokemon</span>
+          <span className='border rounded w-fit px-0.5 py-1 leading-none'>
+            Seed Pokemon
+          </span>
         </div>
         <div className='flex flex-col lg:flex-row justify-center items-center'>
-          <div className='flex flex-1 w-80 lg:max-w-1/4 justify-center'>
+          <div className='flex flex-1 lg:max-w-1/4 xl:w-1/4 justify-center'>
             <div className='w-full lg:perspective-normal'>
-              <table className='table-fixed text-pokedex-gray w-full transform lg:rotate-y-30 lg:hover:rotate-y-0 transition-transform duration-300'>
+              <table className='table-fixed text-text-body max-w-100 transform lg:rotate-y-30 lg:hover:rotate-y-0 transition-transform duration-300'>
                 <tr>
-                  <td className='w-15 xl:w-22 text-right font-bold xl:px-3 py-3 leading-none whitespace-nowrap'>
+                  <td className='w-15 xl:w-22 text-right font-semibold xl:px-3 py-3 leading-none whitespace-nowrap'>
                     ID
                   </td>
                   <td className='pl-3 xl:px-3 py-3 leading-none'>#1</td>
                 </tr>
                 <tr>
-                  <td className='w-15 xl:w-22 text-right font-bold xl:px-3 py-3 leading-none whitespace-nowrap'>
+                  <td className='w-15 xl:w-22 text-right font-semibold xl:px-3 py-3 leading-none whitespace-nowrap'>
                     Height
                   </td>
                   <td className='pl-3 xl:px-3 py-3 leading-none'>
@@ -37,7 +45,7 @@ export const PokemonDetail = ({ pokemon }: PokemonCardProps) => {
                   </td>
                 </tr>
                 <tr>
-                  <td className='w-15 xl:w-22 text-right font-bold xl:px-3 py-3 leading-none whitespace-nowrap'>
+                  <td className='w-15 xl:w-22 text-right font-semibold xl:px-3 py-3 leading-none whitespace-nowrap'>
                     Weight
                   </td>
                   <td className='pl-3 xl:px-3 py-3 leading-none'>
@@ -45,11 +53,11 @@ export const PokemonDetail = ({ pokemon }: PokemonCardProps) => {
                   </td>
                 </tr>
                 <tr>
-                  <td className='w-15 xl:w-22 text-right font-bold xl:px-3 py-3 leading-none whitespace-nowrap'>
+                  <td className='w-15 xl:w-22 text-right font-semibold xl:px-3 py-3 leading-none whitespace-nowrap'>
                     Abilities
                   </td>
-                  <td className='pl-3 xl:px-3 py-3 leading-none'>
-                    <ul className='flex gap-x-2'>
+                  <td className='pl-3 xl:px-3 py-3'>
+                    <ul className='flex flex-wrap gap-x-2 gap-y-2 leading-none'>
                       <li className='border rounded w-fit p-0.5'>OVERGROW</li>
                       <li className='border rounded w-fit p-0.5'>
                         CHLOROPHYLL
@@ -58,16 +66,16 @@ export const PokemonDetail = ({ pokemon }: PokemonCardProps) => {
                   </td>
                 </tr>
                 <tr>
-                  <td className='w-15 xl:w-22 text-right font-bold xl:px-3 py-3 leading-none whitespace-nowrap'>
+                  <td className='w-15 xl:w-22 text-right font-semibold xl:px-3 py-3 leading-none whitespace-nowrap'>
                     Type
                   </td>
                   <td className='pl-3 xl:px-3 py-3 leading-none'>
                     <div className='flex gap-x-4'>
-                      <div className='border rounded w-fit p-0.5'>
+                      <div className='border rounded w-fit px-0.5 py-1'>
                         <span>Grass</span>
                         {/* Icono */}
                       </div>
-                      <div className='border rounded w-fit p-0.5'>
+                      <div className='border rounded w-fit px-0.5 py-1'>
                         <span>Poison</span>
                         {/* Icono */}
                       </div>
@@ -75,7 +83,7 @@ export const PokemonDetail = ({ pokemon }: PokemonCardProps) => {
                   </td>
                 </tr>
                 <tr>
-                  <td className='w-15 xl:w-22 text-right font-bold xl:px-3 py-3 align-top leading-none whitespace-nowrap'>
+                  <td className='w-15 xl:w-22 text-right font-semibold xl:px-3 py-3 align-top leading-none whitespace-nowrap'>
                     Forms
                   </td>
                   <td className='pl-3 xl:px-3 py-3 align-top'>
@@ -88,6 +96,18 @@ export const PokemonDetail = ({ pokemon }: PokemonCardProps) => {
                       </span>
                       <span className='border rounded w-fit p-0.5'>
                         BULBASAUR
+                      </span>
+                      <span className='border rounded w-fit p-0.5'>
+                        BULBASAUR
+                      </span>
+                      <span className='border rounded w-fit p-0.5'>
+                        BULBASAURASDDD
+                      </span>
+                      <span className='border rounded w-fit p-0.5'>
+                        BULBASAUR
+                      </span>
+                      <span className='border rounded w-fit p-0.5'>
+                        BULBASAURASDDD
                       </span>
                     </div>
                   </td>
@@ -102,26 +122,32 @@ export const PokemonDetail = ({ pokemon }: PokemonCardProps) => {
               className='w-full h-auto object-contain'
             />
           </div>
-          <div className='flex flex-1 w-100 lg:max-w-1/4 justify-center'>
-            <div className='w-full lg:perspective-normal'>
-              <table className='table-fixed text-[#505050] w-full transform lg:-rotate-y-30 lg:hover:rotate-y-0 transition-transform duration-300'>
+          <div className='flex flex-1 lg:max-w-1/4 xl:w-1/4 justify-center'>
+            <div className='max-w-100 xl:max-w-full lg:perspective-normal'>
+              <table className='table-fixed text-text-body w-full transform lg:-rotate-y-30 lg:hover:rotate-y-0 transition-transform duration-300'>
                 <thead>
                   <tr>
                     <th className='w-22 xl:w-28'></th>
                     <th className='text-center p-4'>
-                      <button className='cursor-pointer'>Base</button>
+                      <button className='cursor-pointer font-semibold'>
+                        Base
+                      </button>
                     </th>
                     <th className='text-center p-4'>
-                      <button className='cursor-pointer'>Min</button>
+                      <button className='cursor-pointer font-semibold'>
+                        Min
+                      </button>
                     </th>
                     <th className='text-center p-4'>
-                      <button className='cursor-pointer'>Max</button>
+                      <button className='cursor-pointer font-semibold'>
+                        Max
+                      </button>
                     </th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr>
-                    <td className='text-right font-bold xl:px-3 py-3 leading-none whitespace-nowrap'>
+                    <td className='text-right font-semibold xl:px-3 py-3 leading-none whitespace-nowrap'>
                       HP
                     </td>
                     <td
@@ -136,7 +162,7 @@ export const PokemonDetail = ({ pokemon }: PokemonCardProps) => {
                     </td>
                   </tr>
                   <tr>
-                    <td className='text-right font-bold xl:px-3 py-3 leading-none whitespace-nowrap'>
+                    <td className='text-right font-semibold xl:px-3 py-3 leading-none whitespace-nowrap'>
                       Attack
                     </td>
                     <td
@@ -151,7 +177,7 @@ export const PokemonDetail = ({ pokemon }: PokemonCardProps) => {
                     </td>
                   </tr>
                   <tr>
-                    <td className='text-right font-bold xl:px-3 py-3 leading-none whitespace-nowrap'>
+                    <td className='text-right font-semibold xl:px-3 py-3 leading-none whitespace-nowrap'>
                       Defence
                     </td>
                     <td
@@ -166,7 +192,7 @@ export const PokemonDetail = ({ pokemon }: PokemonCardProps) => {
                     </td>
                   </tr>
                   <tr>
-                    <td className='text-right font-bold xl:px-3 py-3 leading-none whitespace-nowrap'>
+                    <td className='text-right font-semibold xl:px-3 py-3 leading-none whitespace-nowrap'>
                       Sp. Attack
                     </td>
                     <td
@@ -181,7 +207,7 @@ export const PokemonDetail = ({ pokemon }: PokemonCardProps) => {
                     </td>
                   </tr>
                   <tr>
-                    <td className='text-right font-bold xl:px-3 py-3 leading-none whitespace-nowrap'>
+                    <td className='text-right font-semibold xl:px-3 py-3 leading-none whitespace-nowrap'>
                       Sp. Defence
                     </td>
                     <td
@@ -196,7 +222,7 @@ export const PokemonDetail = ({ pokemon }: PokemonCardProps) => {
                     </td>
                   </tr>
                   <tr>
-                    <td className='text-right font-bold xl:px-3 py-3 leading-none whitespace-nowrap'>
+                    <td className='text-right font-semibold xl:px-3 py-3 leading-none whitespace-nowrap'>
                       Speed
                     </td>
                     <td
@@ -211,7 +237,7 @@ export const PokemonDetail = ({ pokemon }: PokemonCardProps) => {
                     </td>
                   </tr>
                   <tr>
-                    <td className='text-right font-bold xl:px-3 py-3 leading-none'>
+                    <td className='text-right font-semibold xl:px-3 py-3 leading-none'>
                       Total
                     </td>
                     <td
@@ -226,13 +252,7 @@ export const PokemonDetail = ({ pokemon }: PokemonCardProps) => {
             </div>
           </div>
         </div>
-        <div>
-          <div className='flex justify-center'>
-            <span className='text-2xl border rounded px-1'>
-              EVOLUTION CHAIN
-            </span>
-          </div>
-        </div>
+        <PokemonEvolutionChain pokemon={pokemon} spriteUrl={spriteUrl}/>
       </div>
     </main>
   );
