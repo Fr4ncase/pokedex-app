@@ -5,15 +5,14 @@ import { Link } from '@tanstack/react-router';
 import { typeIcons, typeColors } from '@/assets/types';
 
 // Types
-import type { PokemonBasic } from '@/schemas/pokemon';
+import type { Pokemon, TypeName } from '@/types';
 
+// Interfaces
 interface PokemonCardProps {
-  pokemon: PokemonBasic;
+  pokemon: Pokemon;
 }
 
 export const PokemonCard = ({ pokemon }: PokemonCardProps) => {
-  const spriteUrl = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${pokemon.id}.png`;
-
   return (
     <Link
       to='/pokemon/$id'
@@ -24,21 +23,20 @@ export const PokemonCard = ({ pokemon }: PokemonCardProps) => {
         <div className='flex justify-between items-start'>
           <div className='flex flex-col flex-1 min-w-0'>
             <span className='text-3xl text-pokedex-gray leading-none'>
-              {pokemon.id}
+              {pokemon.id.toString()}
             </span>
             <span className='capitalize text-pokedex-gray text-lg truncate mt-1'>
               {pokemon.name}
             </span>
           </div>
           <div className='flex flex-col gap-1'>
-            {pokemon.types.map((typeSlot) => {
-              const typeName = typeSlot.type.name;
-              const color = typeColors[typeName];
+            {pokemon.types.map((typeName) => {
+              const color = typeColors[typeName as TypeName];
 
               return (
                 <img
                   key={typeName}
-                  src={typeIcons[typeName]}
+                  src={typeIcons[typeName as TypeName]}
                   alt={`Type ${typeName}`}
                   title={typeName}
                   className='w-7.5 h-7.5 object-contain type-icon-hover rounded-full'
@@ -52,11 +50,11 @@ export const PokemonCard = ({ pokemon }: PokemonCardProps) => {
             })}
           </div>
         </div>
-        <div className='flex-1 flex items-center justify-center mt-1'>
+        <figure className='flex-1 flex items-center justify-center mt-1'>
           <img
-            src={spriteUrl}
+            src={pokemon.image}
             alt={pokemon.name}
-            className='w-28 h-28 object-contain transition-transform duration-300 group-hover:scale-110'
+            className='w-26 h-auto object-contain transition-transform duration-300 group-hover:scale-110'
             style={{
               imageRendering: 'auto',
               filter: `
@@ -71,7 +69,7 @@ export const PokemonCard = ({ pokemon }: PokemonCardProps) => {
               e.currentTarget.style.display = 'none';
             }}
           />
-        </div>
+        </figure>
       </div>
     </Link>
   );

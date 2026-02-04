@@ -18,7 +18,10 @@ import rock from '@/assets/types/rock.svg';
 import steel from '@/assets/types/steel.svg';
 import water from '@/assets/types/water.svg';
 
-export const typeIcons: Record<string, string> = {
+// Types
+import type { TypeName } from '@/types';
+
+export const typeIcons: Record<TypeName, string> = {
   bug,
   dark,
   dragon,
@@ -39,7 +42,7 @@ export const typeIcons: Record<string, string> = {
   water,
 };
 
-export const typeColors: Record<string, string> = {
+export const typeColors: Record<TypeName, string> = {
   grass: '#78C850',
   fire: '#F08030',
   water: '#6890F0',
