@@ -1,5 +1,3 @@
-// Node modules
-
 // Components
 import { PokemonCard } from '@/components/PokemonCard';
 

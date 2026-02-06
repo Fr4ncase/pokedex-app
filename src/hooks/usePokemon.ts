@@ -1,6 +1,9 @@
 // Node modules
 import { useQuery } from '@tanstack/react-query';
 
+// Custom modules
+import { getPokemonById } from '@/api/pokemon';
+
 // Types
 import type { Pokemon } from '@/types';
 
@@ -16,9 +19,9 @@ export function usePokemonData() {
   });
 }
 
-// export const usePokemonDetail = (id: string) => {
-//   return useQuery({
-//     queryKey: ['pokemon', 'detail', id],
-//     queryFn: () => getPokemonById(id),
-//   });
-// };
+export const usePokemonDetail = (id: string) => {
+  return useQuery({
+    queryKey: ['pokemon', 'detail', id],
+    queryFn: () => getPokemonById(id),
+  });
+};

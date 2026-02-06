@@ -2,13 +2,18 @@
 import { typeIcons, typeColors } from '@/assets/types';
 
 // Types
-import type { PokemonBasic } from '@/schemas/pokemon';
+type TypeSlot = string | { type: { name: string } };
+import type { TypeName } from '@/types';
 
 // Interfaces
 interface PokemonTypeIconsProps {
-  types: PokemonBasic['types'];
+  types: TypeSlot[];
   containerClassName?: string;
   iconClassName?: string;
+}
+
+function getTypeName(slot: TypeSlot): string {
+  return typeof slot === 'string' ? slot : slot.type?.name ?? '';
 }
 
 export const PokemonTypeIcons = ({
@@ -18,14 +23,15 @@ export const PokemonTypeIcons = ({
 }: PokemonTypeIconsProps) => {
   return (
     <div className={containerClassName}>
-      {types.map((typeSlot) => {
-        const typeName = typeSlot.type.name;
-        const color = typeColors[typeName];
+      {types.map((typeSlot: TypeSlot) => {
+        const typeName = getTypeName(typeSlot);
+        if (!typeName) return null;
+        const color = typeColors[typeName as TypeName];
 
         return (
           <img
             key={typeName}
-            src={typeIcons[typeName]}
+            src={typeIcons[typeName as TypeName]}
             alt={`Type ${typeName}`}
             title={typeName}
             className={`${iconClassName} object-contain type-icon-hover rounded-full`}

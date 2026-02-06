@@ -1,19 +1,36 @@
 // Custom modules
 import { typeIcons, typeColors } from '@/assets/types';
 
-//Components
+// Components
 import { PokemonEvolutionChain } from '@/components/PokemonEvolutionChain';
+import { PokemonTypeIcons } from '@/components/PokemonTypeIcons';
 
-// Schemas
-import type { PokemonBasic } from '@/schemas/pokemon';
+// Types
+import type { PokemonDetailView } from '@/types';
 
 // Interfaces
-interface PokemonCardProps {
-  pokemon: PokemonBasic;
+interface PokemonDetailProps {
+  pokemon: PokemonDetailView;
 }
 
-export const PokemonDetail = ({ pokemon }: PokemonCardProps) => {
-  const spriteUrl = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${pokemon.id}.png`;
+export const PokemonDetail = ({ pokemon }: PokemonDetailProps) => {
+  // Helper
+  const STAT_NAMES = ['hp', 'attack', 'defense', 'special-attack', 'special-defense', 'speed'] as const;
+  const getStat = (name: string) => pokemon.stats?.find((s) => s.stat.name === name)?.base_stat ?? 0;
+  const total = STAT_NAMES.reduce((sum, name) => sum + getStat(name), 0);
+  const imageUrl =
+    pokemon.image?.startsWith('http') && pokemon.image.includes('official-artwork')
+      ? pokemon.image
+      : `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${pokemon.id}.png`;
+  const STAT_MAX = 255;
+  const statRows: { key: string; label: string; statName: string }[] = [
+    { key: 'hp', label: 'HP', statName: 'hp' },
+    { key: 'attack', label: 'Attack', statName: 'attack' },
+    { key: 'defense', label: 'Defence', statName: 'defense' },
+    { key: 'sp-attack', label: 'Sp. Attack', statName: 'special-attack' },
+    { key: 'sp-defense', label: 'Sp. Defence', statName: 'special-defense' },
+    { key: 'speed', label: 'Speed', statName: 'speed' },
+  ];
 
   return (
     <main className='w-full flex-1 overflow-y-auto custom-scrollbar'>
@@ -34,14 +51,14 @@ export const PokemonDetail = ({ pokemon }: PokemonCardProps) => {
                   <td className='w-15 xl:w-22 text-right font-semibold xl:px-3 py-3 leading-none whitespace-nowrap'>
                     ID
                   </td>
-                  <td className='pl-3 xl:px-3 py-3 leading-none'>#1</td>
+                  <td className='pl-3 xl:px-3 py-3 leading-none'>#{pokemon.id}</td>
                 </tr>
                 <tr>
                   <td className='w-15 xl:w-22 text-right font-semibold xl:px-3 py-3 leading-none whitespace-nowrap'>
                     Height
                   </td>
                   <td className='pl-3 xl:px-3 py-3 leading-none'>
-                    0.7m ( 2'4" )
+                    {(pokemon.height / 10).toFixed(1)}m
                   </td>
                 </tr>
                 <tr>
@@ -49,7 +66,7 @@ export const PokemonDetail = ({ pokemon }: PokemonCardProps) => {
                     Weight
                   </td>
                   <td className='pl-3 xl:px-3 py-3 leading-none'>
-                    6.9kg ( 15.2 lbs )
+                    {(pokemon.weight / 10).toFixed(1)}kg
                   </td>
                 </tr>
                 <tr>
@@ -58,10 +75,14 @@ export const PokemonDetail = ({ pokemon }: PokemonCardProps) => {
                   </td>
                   <td className='pl-3 xl:px-3 py-3'>
                     <ul className='flex flex-wrap gap-x-2 gap-y-2 leading-none'>
-                      <li className='border rounded w-fit p-0.5'>OVERGROW</li>
-                      <li className='border rounded w-fit p-0.5'>
-                        CHLOROPHYLL
-                      </li>
+                      {pokemon.abilities.map((ability) => (
+                        <li
+                          key={ability.ability.name}
+                          className='border rounded w-fit p-0.5'
+                        >
+                          {ability.ability.name.toUpperCase().replace(/-/g, ' ')}
+                        </li>
+                      ))}
                     </ul>
                   </td>
                 </tr>
@@ -71,13 +92,36 @@ export const PokemonDetail = ({ pokemon }: PokemonCardProps) => {
                   </td>
                   <td className='pl-3 xl:px-3 py-3 leading-none'>
                     <div className='flex gap-x-4'>
+                      {pokemon.types.map((typeName) => {
+                        const key = (typeof typeName === 'string' ? typeName : typeName).toLowerCase().replace(/\s/g, '-');
+                        const color = typeColors[key as keyof typeof typeColors];
+                        const iconSrc = typeIcons[key as keyof typeof typeIcons];
+                        return (
+                          <div
+                            key={key}
+                            className='rounded-lg px-2.5 py-1.5 flex items-center gap-1.5 text-white font-medium capitalize shadow-md transition-shadow hover:shadow-lg'
+                            style={{
+                              backgroundColor: color ?? '#A8A878',
+                              boxShadow: color ? `0 0 12px ${color}40` : undefined,
+                            }}
+                          >
+                            <span>{key.replace(/-/g, ' ')}</span>
+                            {iconSrc ? (
+                              <img
+                                src={iconSrc}
+                                alt=''
+                                width={20}
+                                height={20}
+                                className='size-5 shrink-0 block object-contain opacity-90'
+                                style={{ filter: 'brightness(0) invert(1)' }}
+                              />
+                            ) : null}
+                          </div>
+                        )
+                      })}
                       <div className='border rounded w-fit px-0.5 py-1'>
-                        <span>Grass</span>
-                        {/* Icono */}
-                      </div>
-                      <div className='border rounded w-fit px-0.5 py-1'>
-                        <span>Poison</span>
-                        {/* Icono */}
+                        <span>{pokemon.types}</span>
+                        <PokemonTypeIcons types={pokemon.types} />
                       </div>
                     </div>
                   </td>
@@ -88,27 +132,14 @@ export const PokemonDetail = ({ pokemon }: PokemonCardProps) => {
                   </td>
                   <td className='pl-3 xl:px-3 py-3 align-top'>
                     <div className='flex flex-wrap gap-x-2 gap-y-2 leading-none'>
-                      <span className='border rounded w-fit p-0.5'>
-                        BULBASAUR
-                      </span>
-                      <span className='border rounded w-fit p-0.5'>
-                        BULBASAURASDDD
-                      </span>
-                      <span className='border rounded w-fit p-0.5'>
-                        BULBASAUR
-                      </span>
-                      <span className='border rounded w-fit p-0.5'>
-                        BULBASAUR
-                      </span>
-                      <span className='border rounded w-fit p-0.5'>
-                        BULBASAURASDDD
-                      </span>
-                      <span className='border rounded w-fit p-0.5'>
-                        BULBASAUR
-                      </span>
-                      <span className='border rounded w-fit p-0.5'>
-                        BULBASAURASDDD
-                      </span>
+                      {pokemon.forms.map((form) => (
+                        <span
+                          key={form.name}
+                          className='border rounded w-fit p-0.5'
+                        >
+                          {form.name.toUpperCase()}
+                        </span>
+                      ))}
                     </div>
                   </td>
                 </tr>
@@ -117,7 +148,7 @@ export const PokemonDetail = ({ pokemon }: PokemonCardProps) => {
           </div>
           <div className='flex flex-1 max-w-full lg:max-w-2/5 justify-center'>
             <img
-              src={spriteUrl}
+              src={imageUrl}
               alt={pokemon.name}
               className='w-full h-auto object-contain'
             />
@@ -155,8 +186,10 @@ export const PokemonDetail = ({ pokemon }: PokemonCardProps) => {
                       className='w-full pl-3 xl:px-3 py-3'
                     >
                       <div className='w-full h-4 bg-gray-200 rounded overflow-hidden shadow-inner'>
-                        <div className='flex items-center justify-end bg-[#81c784] h-full w-3/4 leading-none animate-stripes duration-400'>
-                          <span className='pr-2 text-white'>45</span>
+                        <div
+                          className='flex items-center justify-end bg-[#81c784] h-full w-3/4 leading-none animate-stripes duration-400'
+                          style={{ width: `${(getStat('hp') / STAT_MAX) * 100}%` }}>
+                          <span className='pr-2 text-white'>{getStat('hp')}</span>
                         </div>
                       </div>
                     </td>
@@ -170,8 +203,10 @@ export const PokemonDetail = ({ pokemon }: PokemonCardProps) => {
                       className='w-full pl-3 xl:px-3 py-3'
                     >
                       <div className='w-full h-4 bg-gray-200 rounded overflow-hidden shadow-inner'>
-                        <div className='flex items-center justify-end bg-[#81c784] h-full w-3/4 leading-none animate-stripes duration-400'>
-                          <span className='pr-2 text-white'>45</span>
+                        <div
+                          className='flex items-center justify-end bg-[#81c784] h-full w-3/4 leading-none animate-stripes duration-400'
+                          style={{ width: `${(getStat('attack') / STAT_MAX) * 100}%` }}>
+                          <span className='pr-2 text-white'>{getStat('attack')}</span>
                         </div>
                       </div>
                     </td>
@@ -185,38 +220,44 @@ export const PokemonDetail = ({ pokemon }: PokemonCardProps) => {
                       className='w-full pl-3 xl:px-3 py-3'
                     >
                       <div className='w-full h-4 bg-gray-200 rounded overflow-hidden shadow-inner'>
-                        <div className='flex items-center justify-end bg-[#81c784] h-full w-3/4 leading-none animate-stripes duration-400'>
-                          <span className='pr-2 text-white'>45</span>
+                        <div
+                          className='flex items-center justify-end bg-[#81c784] h-full w-3/4 leading-none animate-stripes duration-400'
+                          style={{ width: `${(getStat('defense') / STAT_MAX) * 100}%` }}>
+                          <span className='pr-2 text-white'>{getStat('defense')}</span>
                         </div>
                       </div>
                     </td>
                   </tr>
                   <tr>
                     <td className='text-right font-semibold xl:px-3 py-3 leading-none whitespace-nowrap'>
-                      Sp. Attack
+                      Sp.Attack
                     </td>
                     <td
                       colSpan={3}
                       className='w-full pl-3 xl:px-3 py-3'
                     >
                       <div className='w-full h-4 bg-gray-200 rounded overflow-hidden shadow-inner'>
-                        <div className='flex items-center justify-end bg-[#81c784] h-full w-full leading-none animate-stripes duration-400'>
-                          <span className='pr-2 text-white'>45</span>
+                        <div
+                          className='flex items-center justify-end bg-[#81c784] h-full w-3/4 leading-none animate-stripes duration-400'
+                          style={{ width: `${(getStat('special-attack') / STAT_MAX) * 100}%` }}>
+                          <span className='pr-2 text-white'>{getStat('special-attack')}</span>
                         </div>
                       </div>
                     </td>
                   </tr>
                   <tr>
                     <td className='text-right font-semibold xl:px-3 py-3 leading-none whitespace-nowrap'>
-                      Sp. Defence
+                      Sp.Defence
                     </td>
                     <td
                       colSpan={3}
                       className='w-full pl-3 xl:px-3 py-3'
                     >
                       <div className='w-full h-4 bg-gray-200 rounded overflow-hidden shadow-inner'>
-                        <div className='flex items-center justify-end bg-[#81c784] h-full w-full leading-none animate-stripes duration-400'>
-                          <span className='pr-2 text-white'>45</span>
+                        <div
+                          className='flex items-center justify-end bg-[#81c784] h-full w-3/4 leading-none animate-stripes duration-400'
+                          style={{ width: `${(getStat('special-defense') / STAT_MAX) * 100}%` }}>
+                          <span className='pr-2 text-white'>{getStat('special-defense')}</span>
                         </div>
                       </div>
                     </td>
@@ -230,8 +271,10 @@ export const PokemonDetail = ({ pokemon }: PokemonCardProps) => {
                       className='w-full pl-3 xl:px-3 py-3'
                     >
                       <div className='w-full h-4 bg-gray-200 rounded overflow-hidden shadow-inner'>
-                        <div className='flex items-center justify-end bg-[#81c784] h-full w-3/4 leading-none animate-stripes duration-400'>
-                          <span className='pr-2 text-white'>45</span>
+                        <div
+                          className='flex items-center justify-end bg-[#81c784] h-full w-3/4 leading-none animate-stripes duration-400'
+                          style={{ width: `${(getStat('speed') / STAT_MAX) * 100}%` }}>
+                          <span className='pr-2 text-white'>{getStat('speed')}</span>
                         </div>
                       </div>
                     </td>
@@ -244,7 +287,7 @@ export const PokemonDetail = ({ pokemon }: PokemonCardProps) => {
                       colSpan={3}
                       className='pl-3 xl:px-3 py-3 leading-none'
                     >
-                      3000
+                      {total}
                     </td>
                   </tr>
                 </tbody>
@@ -252,7 +295,7 @@ export const PokemonDetail = ({ pokemon }: PokemonCardProps) => {
             </div>
           </div>
         </div>
-        <PokemonEvolutionChain pokemon={pokemon} spriteUrl={spriteUrl}/>
+        <PokemonEvolutionChain pokemon={pokemon} spriteUrl={imageUrl} />
       </div>
     </main>
   );

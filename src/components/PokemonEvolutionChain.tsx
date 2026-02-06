@@ -1,19 +1,19 @@
-//Components
+// Components
 import { PokemonTypeIcons } from '@/components/PokemonTypeIcons';
 
-// Schemas
-import type { PokemonBasic } from '@/schemas/pokemon';
+// Types
+import type { PokemonDetailView } from '@/types';
 
 // Interfaces
-interface PokemonCardProps {
-  pokemon: PokemonBasic;
+interface PokemonEvolutionChainProps {
+  pokemon: PokemonDetailView;
   spriteUrl: string;
 }
 
 export const PokemonEvolutionChain = ({
   pokemon,
   spriteUrl,
-}: PokemonCardProps) => {
+}: PokemonEvolutionChainProps) => {
   return (
     <div className=''>
       <div className='flex justify-center'>
@@ -29,8 +29,8 @@ export const PokemonEvolutionChain = ({
           />
         </figure>
         <div>
-          <span>#1</span>
-          <span>BULBASAUR</span>
+          <span>#${pokemon.id}</span>
+          <span>{pokemon.name.toUpperCase()}</span>
         </div>
         <div>
           <PokemonTypeIcons types={pokemon.types} />

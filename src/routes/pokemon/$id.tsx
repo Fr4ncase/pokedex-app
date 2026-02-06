@@ -1,13 +1,14 @@
 // Node modules
 import { createFileRoute, useParams } from '@tanstack/react-router';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 
 // Hooks
-import { usePokemonDetail } from '@/hooks/usePokemon';
+import { usePokemonData, usePokemonDetail } from '@/hooks/usePokemon';
 
 // Components
 import { PokedexHeader } from '@/components/PokedexHeader';
 import { PokemonDetail } from '@/components/PokemonDetail';
+import { LoadingSpinner } from '@/components/LoadingSpinner';
 
 // Constants
 export const Route = createFileRoute('/pokemon/$id')({
@@ -16,12 +17,21 @@ export const Route = createFileRoute('/pokemon/$id')({
 
 function PokemonDetailComponent() {
   const { id } = useParams({ from: '/pokemon/$id' });
-  const { data, isLoading, error } = usePokemonDetail(id);
+  const { data: list } = usePokemonData();
+  const { data: detail, isLoading, error } = usePokemonDetail(id);
 
   const [search, setSearch] = useState('');
 
-  if (isLoading) return <div>Loading...</div>;
+  const pokemon = useMemo(() => {
+    if (!list || !detail) return null;
+    const localPokemon = list.find((p) => p.id === Number(id));
+    if (!localPokemon) return null;
+    return { ...localPokemon, ...detail };
+  }, [list, detail, id]);
+
+  if (isLoading) return <LoadingSpinner />;
   if (error) return <div>Error: {error.message}</div>;
+  if (!pokemon) return <LoadingSpinner />;
 
   return (
     <div className='h-screen flex flex-col'>
@@ -30,7 +40,7 @@ function PokemonDetailComponent() {
         onSearchChange={setSearch}
       />
 
-      <PokemonDetail pokemon={data} />
+      <PokemonDetail pokemon={pokemon} />
     </div>
   );
 }

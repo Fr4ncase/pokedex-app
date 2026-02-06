@@ -13,6 +13,19 @@ export interface Pokemon {
   weight?: number;
 }
 
+export interface PokemonStatEntry {
+  base_stat: number;
+  stat: { name: string };
+}
+
+export type PokemonDetailView = Pokemon & {
+  height: number;
+  weight: number;
+  abilities: { ability: { name: string } }[];
+  forms: { name: string }[];
+  stats: PokemonStatEntry[];
+};
+
 export type TypeName =
   | 'normal'
   | 'fire'

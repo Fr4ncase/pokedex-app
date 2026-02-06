@@ -1,50 +1,27 @@
 // Types
-import { PokemonDetailSchema } from '@/schemas/pokemon';
-import type { PokemonDetail, PokemonBasic } from '@/schemas/pokemon';
+import { PokemonDetailSchema, PokemonSpeciesSchema } from '@/schemas/pokemon';
 
 // API client
 import { apiClient } from '@/api/client';
 
-export const getPokemonList = async (
-  offset: number,
-  limit: number,
-): Promise<{
-  count: number;
-  next: string | null;
-  previous: string | null;
-  results: PokemonBasic[];
-}> => {
-  // Obtener la lista básica
-  const { data } = await apiClient.get(
-    `/pokemon?limit=${limit}&offset=${offset}`,
-  );
+export const getPokemonById = async (id: string) => {
+  const [pokemonRes, speciesVarieties] = await Promise.all([
+    apiClient.get(`/pokemon/${id}`),
+    getPokemonSpeciesById(id),
+  ]);
 
-  // Hacer requests en paralelo - la API devuelve todo pero solo usamos lo necesario
-  const pokemonPromises = data.results.map((pokemon: { url: string }) =>
-    apiClient.get(pokemon.url),
-  );
-
-  const pokemonResponses = await Promise.all(pokemonPromises);
-
-  // Extraer SOLO: id, name, url, types (ignorar stats, abilities, weight, height, etc)
-  const pokemonList: PokemonBasic[] = pokemonResponses.map((response) => {
-    return {
-      id: response.data.id,
-      name: response.data.name,
-      url: `https://pokeapi.co/api/v2/pokemon/${response.data.id}/`,
-      types: response.data.types, // Solo extraemos types
-    };
-  });
+  const detail = PokemonDetailSchema.parse(pokemonRes.data);
 
   return {
-    count: data.count,
-    next: data.next,
-    previous: data.previous,
-    results: pokemonList,
-  };
+    ...detail,
+    forms: speciesVarieties.map((v) => ({ name: v.name })),
+  }
 };
 
-export const getPokemonById = async (id: string): Promise<PokemonDetail> => {
-  const { data } = await apiClient.get(`/pokemon/${id}`);
-  return PokemonDetailSchema.parse(data);
+export const getPokemonSpeciesById = async (id: string) => {
+  const { data } = await apiClient.get(`/pokemon-species/${id}`);
+  const parsed = PokemonSpeciesSchema.parse(data);
+  return parsed.varieties.map((v) => ({
+    name: v.pokemon.name.replace(/-/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase()),
+  }));
 };

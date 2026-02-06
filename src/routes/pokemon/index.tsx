@@ -8,6 +8,7 @@ import { usePokemonData } from '@/hooks/usePokemon';
 // Components
 import { PokedexHeader } from '@/components/PokedexHeader';
 import { PokemonGrid } from '@/components/PokemonGrid';
+import { LoadingSpinner } from '@/components/LoadingSpinner';
 
 // Constants
 export const Route = createFileRoute('/pokemon/')({
@@ -33,7 +34,7 @@ function PokemonGridComponent() {
     );
   }, [data, search]);
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading) return <LoadingSpinner />;
   if (error) return <div>Error: {error.message}</div>;
 
   return (
