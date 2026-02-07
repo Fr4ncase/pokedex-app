@@ -14,7 +14,7 @@ export const PokemonDetailSchema = z.object({
   forms: z.array(
     z.object({
       name: z.string(),
-    })
+    }),
   ),
   stats: z.array(
     z.object({
@@ -37,6 +37,29 @@ export const PokemonSpeciesSchema = z.object({
   varieties: z.array(PokemonSpeciesVarietySchema),
 });
 
+export const PokemonEvolutionChainSchema = z.object({
+  chain: z.object({
+    species: z.object({
+      name: z.string(),
+    }),
+    evolves_to: z.array(
+      z.object({
+        evolves_to: z.array(
+          z.object({
+            species: z.object({
+              name: z.string(),
+            }),
+          }),
+        ),
+        species: z.object({
+          name: z.string(),
+        }),
+      }),
+    ),
+  }),
+});
+
 export type PokemonDetail = z.infer<typeof PokemonDetailSchema>;
 export type PokemonSpeciesVariety = z.infer<typeof PokemonSpeciesVarietySchema>;
 export type PokemonSpecies = z.infer<typeof PokemonSpeciesSchema>;
+export type PokemonEvolutionChain = z.infer<typeof PokemonEvolutionChainSchema>;

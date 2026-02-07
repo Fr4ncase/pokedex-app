@@ -22,18 +22,25 @@ export const PokemonEvolutionChain = ({
         </span>
       </div>
       <div>
-        <figure>
+        <figure className='flex justify-center'>
           <img
             src={spriteUrl}
             alt={pokemon.name}
+            className='w-32 h-auto'
           />
         </figure>
-        <div>
-          <span>#${pokemon.id}</span>
-          <span>{pokemon.name.toUpperCase()}</span>
+        <div className='flex flex-col items-center'>
+          <span>#{pokemon.id}</span>
+          <span className='border rounded px-0.5 py-1 w-fit leading-none'>
+            {pokemon.name.toUpperCase()}
+          </span>
         </div>
         <div>
-          <PokemonTypeIcons types={pokemon.types} />
+          <PokemonTypeIcons
+            types={pokemon.types}
+            containerClassName='flex justify-center'
+            iconClassName='w-5 h-5'
+          />
         </div>
       </div>
       <div></div>

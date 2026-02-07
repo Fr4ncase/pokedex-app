@@ -2,7 +2,7 @@
 import { useQuery } from '@tanstack/react-query';
 
 // Custom modules
-import { getPokemonById } from '@/api/pokemon';
+import { getPokemonById, getPokemonList } from '@/api/pokemon';
 
 // Types
 import type { Pokemon } from '@/types';
@@ -10,11 +10,7 @@ import type { Pokemon } from '@/types';
 export function usePokemonData() {
   return useQuery<Pokemon[]>({
     queryKey: ['pokemon-list'],
-    queryFn: async () => {
-      const res = await fetch('/pokemon-basic.json');
-      if (!res.ok) throw new Error('Failed to fetch pokemon data');
-      return res.json();
-    },
+    queryFn: getPokemonList,
     staleTime: Infinity,
   });
 }

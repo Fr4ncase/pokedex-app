@@ -3,6 +3,8 @@ import { typeIcons, typeColors } from '@/assets/types';
 
 // Types
 import type { PokemonDetailView } from '@/types';
+import type { TypeName } from '@/types';
+import type React from 'react';
 
 // Interfaces
 interface PokemonInfoProps {
@@ -59,19 +61,23 @@ export const PokemonInfo = ({ pokemon }: PokemonInfoProps) => {
             </td>
             <td className='pl-3 xl:px-3 py-3 leading-none'>
               <div className='flex gap-x-4 text-white'>
-                {pokemon.types.map((type) => {
-                  const typeName = typeof type === 'string' ? type : type;
-                  const color = typeColors[typeName as keyof typeof typeColors];
+                {pokemon.types.map((typeName) => {
+                  const color = typeColors[typeName as TypeName];
 
                   return (
                     <div
                       key={typeName}
-                      className='flex justify-between items-center rounded w-23 px-1 py-0.5'
-                      style={{ backgroundColor: color }}
+                      className='flex justify-between items-center rounded w-23 px-1 py-0.5 type-icon-hover'
+                      style={
+                        {
+                          backgroundColor: color,
+                          '--tw-shadow-color': color,
+                        } as React.CSSProperties
+                      }
                     >
                       <span className='capitalize'>{typeName}</span>
                       <img
-                        src={typeIcons[typeName as keyof typeof typeIcons]}
+                        src={typeIcons[typeName as TypeName]}
                         alt={typeName}
                         className='w-6 h-6 object-contain type-icon-hover rounded-full'
                       />
