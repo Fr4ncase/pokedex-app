@@ -6,7 +6,7 @@ import { useMemo, useState } from 'react';
 import { usePokemonData } from '@/hooks/usePokemon';
 
 // Components
-import { PokedexHeader } from '@/components/PokedexHeader';
+import { Header } from '@/components/Header';
 import { PokemonGrid } from '@/components/PokemonGrid';
 import { LoadingSpinner } from '@/components/LoadingSpinner';
 
@@ -39,7 +39,7 @@ function PokemonGridComponent() {
 
   return (
     <div className='h-screen flex flex-col'>
-      <PokedexHeader
+      <Header
         search={search}
         onSearchChange={setSearch}
       />

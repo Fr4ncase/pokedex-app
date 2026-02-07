@@ -3,14 +3,6 @@ export interface Pokemon {
   name: string;
   types: string[];
   image: string;
-  stats?: {
-    hp: number;
-    attack: number;
-    defense: number;
-    speed: number;
-  };
-  height?: number;
-  weight?: number;
 }
 
 export interface PokemonStatEntry {

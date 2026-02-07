@@ -6,7 +6,7 @@ import { useMemo, useState } from 'react';
 import { usePokemonData, usePokemonDetail } from '@/hooks/usePokemon';
 
 // Components
-import { PokedexHeader } from '@/components/PokedexHeader';
+import { Header } from '@/components/Header';
 import { PokemonDetail } from '@/components/PokemonDetail';
 import { LoadingSpinner } from '@/components/LoadingSpinner';
 
@@ -35,7 +35,7 @@ function PokemonDetailComponent() {
 
   return (
     <div className='h-screen flex flex-col'>
-      <PokedexHeader
+      <Header
         search={search}
         onSearchChange={setSearch}
       />

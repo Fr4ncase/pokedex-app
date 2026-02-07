@@ -7,10 +7,7 @@ interface PokedexHeaderProps {
   onSearchChange: (value: string) => void;
 }
 
-export const PokedexHeader = ({
-  search,
-  onSearchChange,
-}: PokedexHeaderProps) => {
+export const Header = ({ search, onSearchChange }: PokedexHeaderProps) => {
   return (
     <header className='bg-white w-full h-10 sm:h-16 shadow-header-glow'>
       <nav className='flex items-center h-full px-8 py-2'>
