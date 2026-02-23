@@ -1,5 +1,6 @@
 // Custom modules
-import { typeIcons, typeColors } from '@/assets/types';
+import { typeIcons } from '@/assets/types';
+import { typeColors } from '@/utils/pokemonColors';
 
 // Types
 type TypeSlot = string | { type: { name: string } };
@@ -13,7 +14,7 @@ interface PokemonTypeIconsProps {
 }
 
 function getTypeName(slot: TypeSlot): string {
-  return typeof slot === 'string' ? slot : slot.type?.name ?? '';
+  return typeof slot === 'string' ? slot : (slot.type?.name ?? '');
 }
 
 export const PokemonTypeIcons = ({

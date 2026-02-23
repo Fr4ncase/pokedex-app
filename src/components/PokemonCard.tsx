@@ -2,7 +2,8 @@
 import { Link } from '@tanstack/react-router';
 
 // Custom modules
-import { typeIcons, typeColors } from '@/assets/types';
+import { typeIcons } from '@/assets/types';
+import { typeColors } from '@/utils/pokemonColors';
 
 // Types
 import type { Pokemon, TypeName } from '@/types';

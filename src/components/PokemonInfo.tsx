@@ -1,5 +1,9 @@
 // Custom modules
-import { typeIcons, typeColors } from '@/assets/types';
+import { typeIcons } from '@/assets/types';
+import { typeColors } from '@/utils/pokemonColors';
+
+// Utils
+import { getSpeciesColorHex, getTextColorHex } from '@/utils/pokemonColors';
 
 // Types
 import type { PokemonDetailView } from '@/types';
@@ -12,6 +16,9 @@ interface PokemonInfoProps {
 }
 
 export const PokemonInfo = ({ pokemon }: PokemonInfoProps) => {
+  const speciesColorHex = getSpeciesColorHex(pokemon.speciesColor);
+  const textColorHex = getTextColorHex(pokemon.speciesColor);
+
   return (
     <div className='flex flex-1 lg:max-w-1/4 xl:w-1/4 justify-center'>
       <div className='w-full lg:perspective-normal'>
@@ -47,7 +54,11 @@ export const PokemonInfo = ({ pokemon }: PokemonInfoProps) => {
                 {pokemon.abilities.map((ability) => (
                   <li
                     key={ability.ability.name}
-                    className='border rounded w-fit p-0.5'
+                    className='rounded w-fit p-0.5'
+                    style={{
+                      backgroundColor: speciesColorHex,
+                      color: textColorHex,
+                    }}
                   >
                     {ability.ability.name.toUpperCase().replace(/-/g, ' ')}
                   </li>
@@ -96,7 +107,11 @@ export const PokemonInfo = ({ pokemon }: PokemonInfoProps) => {
                 {pokemon.forms.map((form) => (
                   <span
                     key={form.name}
-                    className='border rounded w-fit p-0.5'
+                    className='rounded w-fit p-0.5'
+                    style={{
+                      backgroundColor: speciesColorHex,
+                      color: textColorHex,
+                    }}
                   >
                     {form.name.toUpperCase()}
                   </span>

@@ -1,6 +1,9 @@
 // Node modules
 import { createFileRoute, useParams } from '@tanstack/react-router';
-import { useMemo, useState } from 'react';
+import { useMemo } from 'react';
+
+// Utils
+import { getSpeciesColorHex, getTextColorHex } from '@/utils/pokemonColors';
 
 // Hooks
 import { usePokemonData, usePokemonDetail } from '@/hooks/usePokemon';
@@ -20,8 +23,6 @@ function PokemonDetailComponent() {
   const { data: list } = usePokemonData();
   const { data: detail, isLoading, error } = usePokemonDetail(id);
 
-  const [search, setSearch] = useState('');
-
   const pokemon = useMemo(() => {
     if (!list || !detail) return null;
     const localPokemon = list.find((p) => p.id === Number(id));
@@ -36,11 +37,14 @@ function PokemonDetailComponent() {
   return (
     <div className='h-screen flex flex-col'>
       <Header
-        search={search}
-        onSearchChange={setSearch}
+        speciesColorHex={getSpeciesColorHex(pokemon.speciesColor)}
+        textColorHex={getTextColorHex(pokemon.speciesColor)}
       />
 
-      <PokemonDetail pokemon={pokemon} />
+      <PokemonDetail
+        pokemon={pokemon}
+        pokemonList={list}
+      />
     </div>
   );
 }

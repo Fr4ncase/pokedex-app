@@ -4,19 +4,24 @@ import { PokemonStats } from '@/components/PokemonStats';
 import { PokemonInfo } from '@/components/PokemonInfo';
 
 // Types
-import type { PokemonDetailView } from '@/types';
+import type { Pokemon, PokemonDetailView } from '@/types';
 
 // Interfaces
 interface PokemonDetailProps {
   pokemon: PokemonDetailView;
+  pokemonList?: Pokemon[];
 }
 
-export const PokemonDetail = ({ pokemon }: PokemonDetailProps) => {
+// Constants
+const OFFICIAL_ARTWORK_URL =
+  'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork';
+
+export const PokemonDetail = ({ pokemon, pokemonList }: PokemonDetailProps) => {
   const imageUrl =
     pokemon.image?.startsWith('http') &&
     pokemon.image.includes('official-artwork')
       ? pokemon.image
-      : `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${pokemon.id}.png`;
+      : `${OFFICIAL_ARTWORK_URL}/${pokemon.id}.png`;
 
   return (
     <main className='w-full flex-1 overflow-y-auto custom-scrollbar'>
@@ -42,7 +47,7 @@ export const PokemonDetail = ({ pokemon }: PokemonDetailProps) => {
         </div>
         <PokemonEvolutionChain
           pokemon={pokemon}
-          spriteUrl={imageUrl}
+          pokemonList={pokemonList}
         />
       </div>
     </main>

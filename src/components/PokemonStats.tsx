@@ -1,3 +1,6 @@
+// Utils
+import { getSpeciesColorHex, getTextColorHex } from '@/utils/pokemonColors';
+
 // Types
 import type { PokemonDetailView } from '@/types';
 
@@ -7,7 +10,8 @@ interface PokemonStatsProps {
 }
 
 export const PokemonStats = ({ pokemon }: PokemonStatsProps) => {
-  // Helper
+  const speciesColorHex = getSpeciesColorHex(pokemon.speciesColor);
+  const textColorHex = getTextColorHex(pokemon.speciesColor);
   const STAT_NAMES = [
     'hp',
     'attack',
@@ -48,128 +52,40 @@ export const PokemonStats = ({ pokemon }: PokemonStatsProps) => {
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td className='text-right font-semibold xl:px-3 py-3 leading-none whitespace-nowrap'>
-                HP
-              </td>
-              <td
-                colSpan={3}
-                className='w-full pl-3 xl:px-3 py-3'
-              >
-                <div className='w-full h-4 bg-gray-200 rounded overflow-hidden shadow-inner'>
-                  <div
-                    className='flex items-center justify-end bg-[#81c784] h-full w-3/4 leading-none animate-stripes duration-400'
-                    style={{ width: `${(getStat('hp') / STAT_MAX) * 100}%` }}
+            {statRows.map(({ key, label, statName }) => {
+              const value = getStat(statName);
+              const widthPercent = (value / STAT_MAX) * 100;
+              return (
+                <tr key={key}>
+                  <td className='text-right font-semibold xl:px-3 py-3 leading-none whitespace-nowrap'>
+                    {label}
+                  </td>
+                  <td
+                    colSpan={3}
+                    className='w-full pl-3 xl:px-3 py-3'
                   >
-                    <span className='pr-2 text-white'>{getStat('hp')}</span>
-                  </div>
-                </div>
-              </td>
-            </tr>
-            <tr>
-              <td className='text-right font-semibold xl:px-3 py-3 leading-none whitespace-nowrap'>
-                Attack
-              </td>
-              <td
-                colSpan={3}
-                className='w-full pl-3 xl:px-3 py-3'
-              >
-                <div className='w-full h-4 bg-gray-200 rounded overflow-hidden shadow-inner'>
-                  <div
-                    className='flex items-center justify-end bg-[#81c784] h-full w-3/4 leading-none animate-stripes duration-400'
-                    style={{
-                      width: `${(getStat('attack') / STAT_MAX) * 100}%`,
-                    }}
-                  >
-                    <span className='pr-2 text-white'>{getStat('attack')}</span>
-                  </div>
-                </div>
-              </td>
-            </tr>
-            <tr>
-              <td className='text-right font-semibold xl:px-3 py-3 leading-none whitespace-nowrap'>
-                Defence
-              </td>
-              <td
-                colSpan={3}
-                className='w-full pl-3 xl:px-3 py-3'
-              >
-                <div className='w-full h-4 bg-gray-200 rounded overflow-hidden shadow-inner'>
-                  <div
-                    className='flex items-center justify-end bg-[#81c784] h-full w-3/4 leading-none animate-stripes duration-400'
-                    style={{
-                      width: `${(getStat('defense') / STAT_MAX) * 100}%`,
-                    }}
-                  >
-                    <span className='pr-2 text-white'>
-                      {getStat('defense')}
-                    </span>
-                  </div>
-                </div>
-              </td>
-            </tr>
-            <tr>
-              <td className='text-right font-semibold xl:px-3 py-3 leading-none whitespace-nowrap'>
-                Sp.Attack
-              </td>
-              <td
-                colSpan={3}
-                className='w-full pl-3 xl:px-3 py-3'
-              >
-                <div className='w-full h-4 bg-gray-200 rounded overflow-hidden shadow-inner'>
-                  <div
-                    className='flex items-center justify-end bg-[#81c784] h-full w-3/4 leading-none animate-stripes duration-400'
-                    style={{
-                      width: `${(getStat('special-attack') / STAT_MAX) * 100}%`,
-                    }}
-                  >
-                    <span className='pr-2 text-white'>
-                      {getStat('special-attack')}
-                    </span>
-                  </div>
-                </div>
-              </td>
-            </tr>
-            <tr>
-              <td className='text-right font-semibold xl:px-3 py-3 leading-none whitespace-nowrap'>
-                Sp.Defence
-              </td>
-              <td
-                colSpan={3}
-                className='w-full pl-3 xl:px-3 py-3'
-              >
-                <div className='w-full h-4 bg-gray-200 rounded overflow-hidden shadow-inner'>
-                  <div
-                    className='flex items-center justify-end bg-[#81c784] h-full w-3/4 leading-none animate-stripes duration-400'
-                    style={{
-                      width: `${(getStat('special-defense') / STAT_MAX) * 100}%`,
-                    }}
-                  >
-                    <span className='pr-2 text-white'>
-                      {getStat('special-defense')}
-                    </span>
-                  </div>
-                </div>
-              </td>
-            </tr>
-            <tr>
-              <td className='text-right font-semibold xl:px-3 py-3 leading-none whitespace-nowrap'>
-                Speed
-              </td>
-              <td
-                colSpan={3}
-                className='w-full pl-3 xl:px-3 py-3'
-              >
-                <div className='w-full h-4 bg-gray-200 rounded overflow-hidden shadow-inner'>
-                  <div
-                    className='flex items-center justify-end bg-[#81c784] h-full w-3/4 leading-none animate-stripes duration-400'
-                    style={{ width: `${(getStat('speed') / STAT_MAX) * 100}%` }}
-                  >
-                    <span className='pr-2 text-white'>{getStat('speed')}</span>
-                  </div>
-                </div>
-              </td>
-            </tr>
+                    <div className='w-full h-4 bg-gray-200 rounded overflow-hidden shadow-inner'>
+                      <div
+                        className='flex items-center justify-end h-full w-3/4 leading-none animate-stripes duration-400'
+                        style={{
+                          width: `${widthPercent}%`,
+                          backgroundColor: speciesColorHex,
+                        }}
+                      >
+                        <span
+                          className='pr-2 leading-none'
+                          style={{
+                            color: textColorHex,
+                          }}
+                        >
+                          {value}
+                        </span>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+              );
+            })}
             <tr>
               <td className='text-right font-semibold xl:px-3 py-3 leading-none'>
                 Total

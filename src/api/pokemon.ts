@@ -14,35 +14,54 @@ export const getPokemonList = async () => {
   return res.json();
 };
 
+const getPokemonSpeciesWithEvolution = async (id: string) => {
+  const { data } = await apiClient.get(`/pokemon-species/${id}`);
+  const parsed = PokemonSpeciesSchema.parse(data);
+  const evolutionChainUrl = (data as { evolution_chain?: { url: string } })
+    .evolution_chain?.url;
+  const evolutionChainId = evolutionChainUrl?.match(/\/(\d+)\/?$/)?.[1] ?? null;
+  const speciesColor =
+    (data as { color?: { name: string } }).color?.name ?? 'gray';
+  return {
+    varieties: parsed.varieties.map((v) => ({
+      name: v.pokemon.name
+        .replace(/-/g, ' ')
+        .replace(/\b\w/g, (c) => c.toUpperCase()),
+    })),
+    evolutionChainId,
+    speciesColor,
+  };
+};
+
+const getPokemonEvolutionChainById = async (evolutionChainId: string) => {
+  const { data } = await apiClient.get(`/evolution-chain/${evolutionChainId}`);
+  const parsed = PokemonEvolutionChainSchema.parse(data);
+  return parsed;
+};
+
 export const getPokemonById = async (id: string) => {
-  const [pokemonRes, speciesVarieties] = await Promise.all([
+  const speciesData = await getPokemonSpeciesWithEvolution(id);
+  const { varieties, evolutionChainId } = speciesData;
+
+  const [pokemonRes, parsedEvolutionChain] = await Promise.all([
     apiClient.get(`/pokemon/${id}`),
-    getPokemonSpeciesById(id),
-    getPokemonEvolutionChainById(id),
+    evolutionChainId != null
+      ? getPokemonEvolutionChainById(evolutionChainId)
+      : Promise.resolve({
+          chain: {
+            species: { name: '', url: undefined },
+            evolution_details: [],
+            evolves_to: [],
+          },
+        }),
   ]);
 
   const detail = PokemonDetailSchema.parse(pokemonRes.data);
 
   return {
     ...detail,
-    forms: speciesVarieties.map((v) => ({ name: v.name })),
+    forms: varieties.map((v) => ({ name: v.name })),
+    evolutionChain: parsedEvolutionChain,
+    speciesColor: speciesData.speciesColor,
   };
 };
-
-export const getPokemonSpeciesById = async (id: string) => {
-  const { data } = await apiClient.get(`/pokemon-species/${id}`);
-  const parsed = PokemonSpeciesSchema.parse(data);
-  return parsed.varieties.map((v) => ({
-    name: v.pokemon.name
-      .replace(/-/g, ' ')
-      .replace(/\b\w/g, (c) => c.toUpperCase()),
-  }));
-};
-
-export const getPokemonEvolutionChainById = async (id: string) => {
-  const { data } = await apiClient.get(`/evolution-chain/${id}`);
-  const parsed = PokemonEvolutionChainSchema.parse(data);
-
-  return parsed;
-};
-//https://pokeapi.co/api/v2/evolution-chain/1/

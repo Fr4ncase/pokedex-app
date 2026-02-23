@@ -1,3 +1,6 @@
+// Types
+import type { PokemonEvolutionChain } from '@/schemas/pokemon';
+
 export interface Pokemon {
   id: number;
   name: string;
@@ -16,6 +19,8 @@ export type PokemonDetailView = Pokemon & {
   abilities: { ability: { name: string } }[];
   forms: { name: string }[];
   stats: PokemonStatEntry[];
+  evolutionChain: PokemonEvolutionChain;
+  speciesColor?: string;
 };
 
 export type TypeName =
