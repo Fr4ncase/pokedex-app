@@ -22,8 +22,9 @@ export const PokemonStats = ({ pokemon }: PokemonStatsProps) => {
   ] as const;
   const getStat = (name: string) =>
     pokemon.stats?.find((s) => s.stat.name === name)?.base_stat ?? 0;
-  const total = STAT_NAMES.reduce((sum, name) => sum + getStat(name), 0);
-  const STAT_MAX = 255;
+  const statValues = STAT_NAMES.map((name) => getStat(name));
+  const STAT_MAX = Math.max(...statValues, 1);
+  const total = statValues.reduce((sum, val) => sum + val, 0);
   const statRows: { key: string; label: string; statName: string }[] = [
     { key: 'hp', label: 'HP', statName: 'hp' },
     { key: 'attack', label: 'Attack', statName: 'attack' },

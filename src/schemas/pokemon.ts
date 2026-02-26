@@ -35,6 +35,19 @@ const PokemonSpeciesVarietySchema = z.object({
 
 export const PokemonSpeciesSchema = z.object({
   varieties: z.array(PokemonSpeciesVarietySchema),
+  genera: z.array(
+    z.object({
+      genus: z.string(),
+      language: z.object({ name: z.string() }),
+    }),
+  ),
+  flavor_text_entries: z.array(
+    z.object({
+      flavor_text: z.string(),
+      language: z.object({ name: z.string() }),
+      version: z.object({ name: z.string() }),
+    }),
+  ),
 });
 
 const EvolutionDetailsSchema = z.object({

@@ -22,6 +22,10 @@ const getPokemonSpeciesWithEvolution = async (id: string) => {
   const evolutionChainId = evolutionChainUrl?.match(/\/(\d+)\/?$/)?.[1] ?? null;
   const speciesColor =
     (data as { color?: { name: string } }).color?.name ?? 'gray';
+  const genera = parsed.genera.filter((g) => g.language.name === 'en');
+  const flavorText = parsed.flavor_text_entries.filter(
+    (entry) => entry.language.name === 'en',
+  );
   return {
     varieties: parsed.varieties.map((v) => ({
       name: v.pokemon.name
@@ -30,6 +34,8 @@ const getPokemonSpeciesWithEvolution = async (id: string) => {
     })),
     evolutionChainId,
     speciesColor,
+    genera,
+    flavorText,
   };
 };
 
@@ -63,5 +69,7 @@ export const getPokemonById = async (id: string) => {
     forms: varieties.map((v) => ({ name: v.name })),
     evolutionChain: parsedEvolutionChain,
     speciesColor: speciesData.speciesColor,
+    genera: speciesData.genera,
+    flavorText: speciesData.flavorText,
   };
 };

@@ -21,6 +21,8 @@ export type PokemonDetailView = Pokemon & {
   stats: PokemonStatEntry[];
   evolutionChain: PokemonEvolutionChain;
   speciesColor?: string;
+  genera: { genus: string }[];
+  flavorText: { flavor_text: string; version: { name: string } }[];
 };
 
 export type TypeName =

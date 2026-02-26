@@ -41,7 +41,7 @@ export function getSpeciesColorHex(speciesColor?: string) {
   return speciesColors[speciesColor.toLowerCase()];
 }
 
-const DARK_TEXT = 'text-text-body';
+const DARK_TEXT = '#505050';
 const LIGHT_TEXT = '#ffffff';
 
 export const getTextColorHex = (speciesColor?: string) => {

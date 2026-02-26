@@ -23,6 +23,7 @@ export const PokemonInfo = ({ pokemon }: PokemonInfoProps) => {
     <div className='flex flex-1 lg:max-w-1/4 xl:w-1/4 justify-center'>
       <div className='w-full lg:perspective-normal'>
         <table className='table-fixed text-text-body max-w-100 transform lg:rotate-y-30 lg:hover:rotate-y-0 transition-transform duration-300'>
+          <tbody>
           <tr>
             <td className='w-15 xl:w-22 text-right font-semibold xl:px-3 py-3 leading-none whitespace-nowrap'>
               ID
@@ -119,6 +120,7 @@ export const PokemonInfo = ({ pokemon }: PokemonInfoProps) => {
               </div>
             </td>
           </tr>
+          </tbody>
         </table>
       </div>
     </div>
