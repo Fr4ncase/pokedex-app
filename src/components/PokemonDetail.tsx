@@ -1,5 +1,6 @@
 // Node modules
 import { useState } from 'react';
+import { createPortal } from 'react-dom';
 
 // Components
 import { PokemonEvolutionChain } from '@/components/PokemonEvolutionChain';
@@ -43,11 +44,6 @@ export const PokemonDetail = ({ pokemon, pokemonList }: PokemonDetailProps) => {
         <h1 className='uppercase text-center text-[40px] text-pokedex-gray mt-5'>
           {pokemon.name}
         </h1>
-        <PokemonEntries
-          isOpen={isPokemonEntriesOpen}
-          onClose={() => setIsPokemonEntriesOpen(false)}
-          pokemon={pokemon}
-        />
         <div className='flex justify-center'>
           <button
             className='rounded w-fit px-0.5 py-1 leading-none cursor-pointer'
@@ -75,6 +71,14 @@ export const PokemonDetail = ({ pokemon, pokemonList }: PokemonDetailProps) => {
           pokemon={pokemon}
           pokemonList={pokemonList}
         />
+        {createPortal(
+          <PokemonEntries
+            isOpen={isPokemonEntriesOpen}
+            onClose={() => setIsPokemonEntriesOpen(false)}
+            pokemon={pokemon}
+          />,
+          document.body,
+        )}
       </div>
     </main>
   );
