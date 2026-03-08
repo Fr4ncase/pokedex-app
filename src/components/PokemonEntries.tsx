@@ -1,6 +1,9 @@
 // Utils
 import { getSpeciesColorHex, getTextColorHex } from '@/utils/pokemonColors';
 
+// Components
+import { CustomScrollArea } from '@/components/CustomScrollArea';
+
 // Types
 import type { PokemonDetailView } from '@/types';
 
@@ -17,6 +20,7 @@ export const PokemonEntries = ({
   pokemon,
 }: PokemonEntriesProps) => {
   if (!isOpen) return null;
+
   const speciesColorHex = getSpeciesColorHex(pokemon.speciesColor);
   const textColorHex = getTextColorHex(pokemon.speciesColor);
 
@@ -38,32 +42,31 @@ export const PokemonEntries = ({
           </span>
         </div>
         <div className='shrink-0 w-full border-t border-neutral-400' />
-        <div
-          className='flex flex-1 flex-col items-center w-full min-h-0 overflow-y-auto custom-scrollbar'
-          style={{ overflowY: 'overlay' }}
-        >
-          <div className='w-full px-4 mt-5'>
-            {pokemon.flavorText.map((entry, index) => (
-              <div
-                key={index}
-                className='flex flex-col items-center text-center'
-              >
+        <CustomScrollArea className='flex flex-1 w-full min-h-0'>
+          <div className='flex flex-col items-center w-full'>
+            <div className='w-full px-4 mt-5'>
+              {pokemon.flavorText.map((entry, index) => (
                 <div
-                  className='p-1 mb-1 text-xl capitalize rounded leading-none '
-                  style={{
-                    background: speciesColorHex,
-                    color: textColorHex,
-                  }}
+                  key={index}
+                  className='flex flex-col items-center text-center'
                 >
-                  Pokémon {entry.version.name}
+                  <div
+                    className='p-1 mb-1 text-xl capitalize rounded leading-none'
+                    style={{
+                      background: speciesColorHex,
+                      color: textColorHex,
+                    }}
+                  >
+                    Pokémon {entry.version.name}
+                  </div>
+                  <div className='mb-5 text-text-body leading-5'>
+                    {entry.flavor_text}
+                  </div>
                 </div>
-                <div className='mb-5 text-text-body leading-5'>
-                  {entry.flavor_text}
-                </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
-        </div>
+        </CustomScrollArea>
         <div className='shrink-0 w-full mb-4 border-t border-neutral-400' />
         <div className='flex justify-center w-full px-4 pb-2'>
           <button

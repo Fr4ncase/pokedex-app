@@ -1,5 +1,6 @@
 // Components
 import { PokemonCard } from '@/components/PokemonCard';
+import { CustomScrollArea } from '@/components/CustomScrollArea';
 
 // Types
 import type { Pokemon } from '@/types';
@@ -11,8 +12,8 @@ interface PokemonGridProps {
 
 export function PokemonGrid({ pokemons }: PokemonGridProps) {
   return (
-    <main className='w-full flex-1 overflow-y-auto custom-scrollbar px-4'>
-      <div className='flex flex-wrap justify-center w-full'>
+    <CustomScrollArea className='w-full flex-1 min-h-0'>
+      <div className='flex flex-wrap justify-center w-full px-4'>
         {pokemons.map((pokemon) => (
           <PokemonCard
             key={pokemon.id}
@@ -20,6 +21,6 @@ export function PokemonGrid({ pokemons }: PokemonGridProps) {
           />
         ))}
       </div>
-    </main>
+    </CustomScrollArea>
   );
 }

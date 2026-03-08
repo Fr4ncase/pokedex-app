@@ -7,6 +7,7 @@ import { PokemonEvolutionChain } from '@/components/PokemonEvolutionChain';
 import { PokemonStats } from '@/components/PokemonStats';
 import { PokemonInfo } from '@/components/PokemonInfo';
 import { PokemonEntries } from '@/components/PokemonEntries';
+import { CustomScrollArea } from '@/components/CustomScrollArea';
 
 // Types
 import type { Pokemon, PokemonDetailView } from '@/types';
@@ -39,7 +40,7 @@ export const PokemonDetail = ({ pokemon, pokemonList }: PokemonDetailProps) => {
   };
 
   return (
-    <main className='w-full flex-1 overflow-y-auto custom-scrollbar'>
+    <CustomScrollArea className='w-full flex-1 min-h-0'>
       <div className='w-full max-w-450 mx-auto px-4'>
         <h1 className='uppercase text-center text-[40px] text-pokedex-gray mt-5'>
           {pokemon.name}
@@ -80,6 +81,6 @@ export const PokemonDetail = ({ pokemon, pokemonList }: PokemonDetailProps) => {
           document.body,
         )}
       </div>
-    </main>
+    </CustomScrollArea>
   );
 };
