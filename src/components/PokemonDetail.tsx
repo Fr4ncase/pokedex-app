@@ -46,7 +46,7 @@ export const PokemonDetail = ({ pokemon, pokemonList }: PokemonDetailProps) => {
         </h1>
         <div className='flex justify-center'>
           <button
-            className='rounded w-fit px-0.5 py-1 leading-none cursor-pointer'
+            className='rounded w-fit p-1 leading-none cursor-pointer'
             style={{
               backgroundColor: speciesColorHex,
               color: textColorHex,

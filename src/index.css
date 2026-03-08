@@ -45,6 +45,14 @@ img {
     background: #8d8d8d;
   }
 
+  .scrollbar-hidden {
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE / Edge */
+  }
+  .scrollbar-hidden::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera */
+  }
+
   /* Custom hover icon */
   .type-icon-hover {
     @apply transition-all duration-200 ease-in-out cursor-pointer;
@@ -58,6 +66,16 @@ img {
     filter: saturate(200%) drop-shadow(1px 1px 0px rgba(0, 0, 0, 0.8))
       drop-shadow(-1px -1px 0px rgba(0, 0, 0, 0.8))
       drop-shadow(0 0 20px var(--tw-shadow-color)) !important;
+  }
+
+  .type-icon-info {
+    @apply transition-all duration-200 ease-in-out cursor-pointer;
+    filter: drop-shadow(0 0 15px var(--tw-shadow-color));
+  }
+
+  .type-icon-info:hover {
+    @apply scale-[1.1];
+    filter: saturate(200%) drop-shadow(0 0 20px var(--tw-shadow-color)) !important;
   }
 
   /* progress-bar-stripes */

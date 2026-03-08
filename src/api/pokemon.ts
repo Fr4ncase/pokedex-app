@@ -23,14 +23,19 @@ const getPokemonSpeciesWithEvolution = async (id: string) => {
   const speciesColor =
     (data as { color?: { name: string } }).color?.name ?? 'gray';
   const genera = parsed.genera.filter((g) => g.language.name === 'en');
-  const flavorText = parsed.flavor_text_entries.filter(
-    (entry) => entry.language.name === 'en',
-  );
+  const flavorText = parsed.flavor_text_entries
+    .filter((entry) => entry.language.name === 'en')
+    .map((entry) => ({
+      ...entry,
+      flavor_text: entry.flavor_text
+        .replace(/\f/g, ' ')
+        .replace(/\n/g, ' ')
+        .replace(/\s+/g, ' ')
+        .trim(),
+    }));
   return {
     varieties: parsed.varieties.map((v) => ({
-      name: v.pokemon.name
-        .replace(/-/g, ' ')
-        .replace(/\b\w/g, (c) => c.toUpperCase()),
+      name: v.pokemon.name.replace(/-/g, ' '),
     })),
     evolutionChainId,
     speciesColor,
